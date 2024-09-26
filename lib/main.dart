@@ -1,3 +1,4 @@
+import 'dart:math'; // Import this to use Random
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,12 +35,22 @@ class _MyHomePageState extends State<MyHomePage> {
   String _weatherData = 'Enter a city to fetch weather';
   
   final TextEditingController _controller = TextEditingController();
+  final Random _random = Random();
 
+  // Simulate fetching weather data
   void _fetchWeather() {
     setState(() {
-      _cityName = _controller.text; // Fetch city name from input
-      
-      _weatherData = 'Weather in $_cityName: 75 Degrees F, Raining '; // Placeholder data
+      _cityName = _controller.text;
+
+      // Generate random temperature between 15°C and 30°C
+      int temperature = 15 + _random.nextInt(16);
+
+      // List of possible weather conditions
+      List<String> conditions = ['Sunny', 'Cloudy', 'Rainy'];
+      String weatherCondition = conditions[_random.nextInt(conditions.length)];
+
+      // Update weather data string
+      _weatherData = 'Weather in $_cityName: $temperature°C, $weatherCondition';
     });
   }
 
@@ -57,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextField(
               controller: _controller,
               decoration: InputDecoration(
-                labelText: 'Enter the City Name',
+                labelText: 'Enter City Name',
                 border: OutlineInputBorder(),
               ),
             ),
