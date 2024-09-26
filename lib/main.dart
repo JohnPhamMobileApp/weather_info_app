@@ -1,4 +1,4 @@
-import 'dart:math'; //library for the random weather degrees
+import 'dart:math'; // Library for random weather degrees
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +13,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Weather App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue), // Set color to blue
+        scaffoldBackgroundColor: Colors.black, // Black background
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue, // Blue app bar
+        ),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.white), // Default body text color
+          bodySmall: TextStyle(color: Colors.white), // Additional body text style
+          displayMedium: TextStyle(color: Colors.white), // Headline text color
+        ),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Weather App'),
@@ -33,11 +42,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _cityName = '';
   String _weatherData = 'Enter a city to fetch weather';
-  
+
   final TextEditingController _controller = TextEditingController();
   final Random _random = Random();
 
-  // Simulate fetching weather data
+  // Simulate weather forecast
   void _fetchWeather() {
     setState(() {
       _cityName = _controller.text;
@@ -50,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String weatherCondition = conditions[_random.nextInt(conditions.length)];
 
       // Update weather data string
-      _weatherData = 'Weather in CITY:$_cityName TEMPERATURE:$temperature°C, WEATHER:$weatherCondition';
+      _weatherData = 'The Weather in CITY: $_cityName TEMPERATURE: $temperature°C, WEATHER: $weatherCondition';
     });
   }
 
@@ -58,7 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
@@ -67,9 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             TextField(
               controller: _controller,
+              style: TextStyle(color: Colors.white), // Text color in TextField
               decoration: InputDecoration(
                 labelText: 'Enter City Name',
-                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: Colors.white), // Label color
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white), // Border color
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -78,10 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Fetch Weather'),
             ),
             const SizedBox(height: 16),
-            // Display the simulated weather information
+            // Display the weather information
             Text(
               _weatherData,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.displayMedium, 
               textAlign: TextAlign.center,
             ),
           ],
