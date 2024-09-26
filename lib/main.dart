@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue), // Set color to blue
         scaffoldBackgroundColor: Colors.black, // Black background
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.blue, // Blue app bar
         ),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.white), // Default body text color
           bodySmall: TextStyle(color: Colors.white), // Additional body text style
           displayMedium: TextStyle(color: Colors.white), // Headline text color
@@ -42,6 +42,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _cityName = '';
   String _weatherData = 'Enter a city to fetch weather';
+  List<String> _weeklyForecast = [];
 
   final TextEditingController _controller = TextEditingController();
   final Random _random = Random();
@@ -59,7 +60,20 @@ class _MyHomePageState extends State<MyHomePage> {
       String weatherCondition = conditions[_random.nextInt(conditions.length)];
 
       // Update weather data string
-      _weatherData = 'The Weather in CITY: $_cityName TEMPERATURE: $temperature°C, WEATHER: $weatherCondition';
+      _weatherData = 'The Weather is CITY: $_cityName TEMP: $temperature°C, WEATHER: $weatherCondition';
+    });
+  }
+
+  // Simulate 7-day weather forecast
+  void _fetchWeeklyForecast() {
+    setState(() {
+      _weeklyForecast.clear(); // Clear previous forecast
+      for (int i = 0; i < 7; i++) {
+        int temperature = 15 + _random.nextInt(16);
+        List<String> conditions = ['Sunny', 'Cloudy', 'Rainy'];
+        String weatherCondition = conditions[_random.nextInt(conditions.length)];
+        _weeklyForecast.add('Day ${i + 1}: $temperature°C, $weatherCondition'); //7 day forecast
+      }
     });
   }
 
@@ -75,8 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             TextField(
               controller: _controller,
-              style: TextStyle(color: Colors.white), // Text color in TextField
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.white), // Text color in TextField
+              decoration: const InputDecoration(
                 labelText: 'Enter City Name',
                 labelStyle: TextStyle(color: Colors.white), // Label color
                 border: OutlineInputBorder(
@@ -90,12 +104,25 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Fetch Weather'),
             ),
             const SizedBox(height: 16),
-            // Display the weather information
+            ElevatedButton(
+              onPressed: _fetchWeeklyForecast,
+              child: const Text('Fetch 7-Day Forecast'),
+            ),
+            const SizedBox(height: 16),
+            // Display the current weather information
             Text(
               _weatherData,
-              style: Theme.of(context).textTheme.displayMedium, 
+              style: Theme.of(context).textTheme.displayMedium,
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 16),
+            // Display the 7-day weather forecast
+            for (var forecast in _weeklyForecast)
+              Text(
+                forecast,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
           ],
         ),
       ),
