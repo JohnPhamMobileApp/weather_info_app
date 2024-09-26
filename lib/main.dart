@@ -1,4 +1,4 @@
-import 'dart:math'; // Import this to use Random
+import 'dart:math'; //library for the random weather degrees
 import 'package:flutter/material.dart';
 
 void main() {
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String weatherCondition = conditions[_random.nextInt(conditions.length)];
 
       // Update weather data string
-      _weatherData = 'Weather in $_cityName: $temperature°C, $weatherCondition';
+      _weatherData = 'Weather in CITY:$_cityName TEMPERATURE:$temperature°C, WEATHER:$weatherCondition';
     });
   }
 
@@ -78,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Fetch Weather'),
             ),
             const SizedBox(height: 16),
+            // Display the simulated weather information
             Text(
               _weatherData,
               style: Theme.of(context).textTheme.headlineMedium,
